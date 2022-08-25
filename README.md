@@ -14,4 +14,4 @@ The PypeIt read the docs site can be found [here](https://pypeit.readthedocs.io)
 
 To use these scripts with PypeIt, first call `pypeit_setup`, then reduce all of the data with `run_pypeit`. Then the script `preCoaddPipeline.py` can be used to create configuration flies for 1D and 2D coadds and respective slurm scripts. After running all of the coadds, `postCoaddPipeline.py` can be used to reformat the data into one directory. 
 
-I found that a mosaic reduction and detector reduction sometimes failed for different objects. So by running PypeIt in both mosaic and detector modes, I was able to have a larger dataset of succesfully reduced objects. The scripts in this repository do not reassemble the detector mode data, but 
+I found that a mosaic reduction and detector reduction sometimes failed for different objects. So by running PypeIt in both mosaic and detector modes, I was able to have a larger dataset of succesfully reduced objects. The scripts in this repository do not reassemble the detector mode data, but the script 'combineByPriority.py` can be used to assemble a dataset of all reduced objects. 
