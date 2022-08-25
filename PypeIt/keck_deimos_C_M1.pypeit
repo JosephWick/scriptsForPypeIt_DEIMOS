@@ -1,0 +1,52 @@
+# Auto-generated PypeIt file using PypeIt version: 1.9.1
+# 2022-06-27
+
+# User-defined execution parameters
+[rdx]
+  spectrograph = keck_deimos
+  detnum = (1,5)
+[baseprocess]
+  sigclip = 3.0
+[calibrations]
+  [[wavelengths]]
+    lamps = KrI, XeI, HgI, ArI, NeI, CdI, ZnI
+    n_final = 5
+    n_first = 3
+  [[slitedges]]
+    edge_thresh = 10.0
+    use_maskdesign = True
+    minimum_slit_length = 2.0
+    # add_slits = 4:2429:10:24, 4:2351:36:52, 4:2241:1108:1122, 4:2130:1132:1177, 8:2415:16:32, 8:2355:38:56, 8:2203:1112:1126, 8:2118:1138:1179   
+[reduce]
+  [[findobj]]
+    snr_thresh = 3.0
+    maxnumber_sci = 1
+  [[skysub]]
+    global_sky_std = False
+  [[extraction]]
+    model_full_slit = True
+  [[slitmask]]
+    extract_missing_objs = True
+
+# Setup
+setup read
+    Setup C:
+         dispname: 1200G
+           decker: MSK1
+          binning: 1,1
+        dispangle: 7500.03662109
+              amp: "SINGLE:B"
+          filter1: GG455
+setup end
+
+# Read in the data
+data read
+ path /data/groups/leauthaud/Merian/spectroscopy/Keck/Keck_data_2022/KOA_103052/DEIMOS/raw/allraw
+|           filename |                 frametype |                ra |    dec |  target | dispname | decker | binning |          mjd |     airmass | exptime |     dispangle |      amp | filter1 |    dateobs |         utc | frameno |
+| d0202_0046.fits.gz |                  arc,tilt | 57.99999999999999 |   45.0 | unknown |    1200G |   MSK1 |     1,1 |  59612.15824 |  1.41291034 |     1.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 03:47:59.07 |      46 |
+| d0202_0126.fits.gz |                  arc,tilt | 341.7295833333333 |  0.081 | horizon |    1200G |   MSK1 |     1,1 | 59612.691007 | 13.37481353 |     1.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 16:35:10.65 |     126 |
+| d0202_0053.fits.gz | pixelflat,illumflat,trace | 57.99999999999999 |   45.0 | unknown |    1200G |   MSK1 |     1,1 |  59612.16638 |  1.41291034 |    12.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 03:59:41.34 |      53 |
+| d0202_0133.fits.gz | pixelflat,illumflat,trace | 341.7295833333333 |  0.081 | horizon |    1200G |   MSK1 |     1,1 | 59612.699171 | 13.37481353 |    12.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 16:46:54.96 |     133 |
+| d0202_0134.fits.gz | pixelflat,illumflat,trace | 341.7295833333333 |  0.081 | horizon |    1200G |   MSK1 |     1,1 | 59612.700062 | 13.37481353 |    12.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 16:48:12.48 |     134 |
+| d0202_0135.fits.gz | pixelflat,illumflat,trace | 341.7295833333333 |  0.081 | horizon |    1200G |   MSK1 |     1,1 |    59612.701 | 13.37481353 |    12.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 16:49:34.08 |     135 |
+| d0202_0104.fits.gz |                   science |        150.103875 | 2.5435 |  MASK_1 |    1200G |   MSK1 |     1,1 | 59612.541696 |  1.12619494 |   900.0 | 7500.03662109 | SINGLE:B |   GG455 | 2022-02-02 | 13:00:08.16 |     104 |
