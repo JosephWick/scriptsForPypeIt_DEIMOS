@@ -10,7 +10,7 @@ This script uses the files in the `Science/` directory that PypeIt outputs durin
 This script reformats the coadded files into a specific format and naming convention, and creates an object list. The naming convention is `keck_IdxInObjList_Objname.fits` for 1d spectra and is the same for 2d spectra with an added suffix: `_spec2D`. 
 
 # General Pypeit
-The PypeIt read the docs site can be found [here](https://pypeit.readthedocs.io) and has a [DEIMOS specific how to](https://pypeit.readthedocs.io/en/release/deimos_howto.html), which is what I roughly followed. There is an example pypeit file as well as a slurm script in the `PypeIt/` directory. 
+The PypeIt read the docs site can be found [here](https://pypeit.readthedocs.io) and has a [DEIMOS specific how to](https://pypeit.readthedocs.io/en/release/tutorials/deimos_howto.html), which is what I roughly followed. There is an example pypeit file as well as a slurm script in the `PypeIt/` directory. 
 
 To use these scripts with PypeIt, first call `pypeit_setup`, then reduce all of the data with `run_pypeit`. Then the script `preCoaddPipeline.py` can be used to create configuration flies for 1D and 2D coadds and respective slurm scripts. After running all of the coadds, `postCoaddPipeline.py` can be used to reformat the data into one directory. 
 
