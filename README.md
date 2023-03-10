@@ -12,6 +12,16 @@ This script reformats the coadded files into a specific format and naming conven
 # General Pypeit
 The PypeIt read the docs site can be found [here](https://pypeit.readthedocs.io) and has a [DEIMOS specific how to](https://pypeit.readthedocs.io/en/release/tutorials/deimos_howto.html), which is what I roughly followed. There is an example pypeit file as well as a slurm script in the `PypeIt/` directory. 
 
+## Initial setup
+The first thing we want to do is let Pypeit sort through the data and determine what calibrations are associated with what science images. Pypeit is pretty good at this, I didn't find any errors, but it is still best to double check once we're done with this step.
+
+Put all of the data, science and calibrations, into one directory. I called this directory `raw`. We want to create a separate directory for all of our reduction, I called this directory `processed`. Enter into the `processed` directory and call the script
+`pypeit_setup -r RAWPATH -s keck_deimos -c all`
+
+This will generate a series of folders organized by observation date and mask. Each mask will be given a folder name along the lines of `keck_deimos_A`. You'll have to figure out which folder is associated with which mask. Each directory will have a `.pypeit` folder in it, which is what we will use to configure our reduction. For the masks that we want to reduce, read through the table at the bottom of the `.pypeit` file and make sure that all of the files have been correctly designated. ...
+
+
+---
 To use these scripts with PypeIt, first call `pypeit_setup`, then reduce all of the data with `run_pypeit`. Then the script `preCoaddPipeline.py` can be used to create configuration flies for 1D and 2D coadds and respective slurm scripts. After running all of the coadds, `postCoaddPipeline.py` can be used to reformat the data into one directory. 
 
 I found that a mosaic reduction and detector reduction sometimes failed for different objects. So by running PypeIt in both mosaic and detector modes, I was able to have a larger dataset of succesfully reduced objects. The scripts in this repository do not reassemble the detector mode data, but the script 'combineByPriority.py` can be used to assemble a dataset of all reduced objects. 
