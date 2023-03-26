@@ -15,6 +15,8 @@ This script reformats the coadded files into a specific format and naming conven
 # General Pypeit
 The PypeIt read the docs site can be found [here](https://pypeit.readthedocs.io) and has a [DEIMOS specific how to](https://pypeit.readthedocs.io/en/release/tutorials/deimos_howto.html), which is what I roughly followed. There is an example pypeit file as well as a slurm script in the `PypeIt/` directory. 
 
+Pypeit has several scripts that we use to organize data, test calibrations, and reduce the data. Each of these when ran with the flag `-h` provides a summary of the script and the input options. 
+
 ## Initial setup
 The first thing we want to do is let Pypeit sort through the data and determine what calibrations are associated with what science images. Pypeit is pretty good at this, I didn't find any errors, but it is still best to double check once we're done with this step.
 
@@ -28,9 +30,20 @@ Now, we want to modify our `.pypeit` files for the masks we want to reduce. Ther
 The first is `minimum_slit_length`, which defined the shortest slit that Pypeit will automatically identify. I think 4.0 arcseconds is accurate for the Merian Keck runs but wouldn't hurt to check with one of the observers. The other is `snr_thresh`. This will come into play after the reduction is done. Pypeit will try and automatically identify the object in the slit and use this information to extract spectra. One issue that I ran into was Pypeit being unable to find objects, which is why `snr_thresh` is set so low. Looking through the object finding QA images can help find a good value for this parameter. 
 
 ## Edge Tracing 
-Before running the reduction, we want to make sure that Pypeit can capture the slit edges accurately. To do so, we use the script 
+Before running the reduction, we want to make sure that Pypeit can capture the slit edges accurately. To do so, we use the script `pypeit_trace_edges`. After the script ends, we can use the script `pypeit_chk_edges` on the output of the edge tracing. You can compare the ginga window to a raw science image to conform that all (or at least nearly all) slits were well captured. 
 
----
-To use these scripts with PypeIt, first call `pypeit_setup`, then reduce all of the data with `run_pypeit`. Then the script `preCoaddPipeline.py` can be used to create configuration flies for 1D and 2D coadds and respective slurm scripts. After running all of the coadds, `postCoaddPipeline.py` can be used to reformat the data into one directory. 
+If the edge tracing is poor, we can modify `slitedge` parameters: https://pypeit.readthedocs.io/en/release/calibrations/slit_tracing.html 
 
-I found that a mosaic reduction and detector reduction sometimes failed for different objects. So by running PypeIt in both mosaic and detector modes, I was able to have a larger dataset of succesfully reduced objects. The scripts in this repository do not reassemble the detector mode data, but the script 'combineByPriority.py` can be used to assemble a dataset of all reduced objects. 
+## Main Run 
+When the edge tracing is satisfactory, we can move on to the main run, called by the `run_pypeit` script. There's a slurm script in this repo `reduceMask1_M.slurm` that I used to reduce on lux. That script only reduce one mask, but a slurm file could be made to reduce several at once. I made different pypeit files for each mosaic, but one could also use the `-d` flag when calling the script. 
+
+## Checking QA
+
+Pypeit produces several different QA images for each reduced galaxy. It is important to look through all of them, information on what consitututes a "good" reduction is available [here](https://pypeit.readthedocs.io/en/release/qa.html). 
+
+I had the most problems with object finding, so spent the most time with those QA files. Looking at the objecting finding and sky subtraction QA images can give an idea of if the `snr_thresh` parameter in the pypeit file needs to be adjusted. I reduced the data multiple times to find an adequate `snr_thresh`, so it may be a good idea to run one mask to test this parameter before doing a full reduction. 
+
+## Coadding
+Once the data is reduced adequately, we want to coadd out multiple exposures to produce a single spectra. 
+
+This is where the two python scripts in this repository come in. First run `preCoaddPypeline.py`, which will produce slurm scripts for coadding. After running those scripts to coadd the data, run `postCoaddPypeline.py`. Before running each script, you will need to modify the code so that the file paths at the top of the file point toward your data. 
